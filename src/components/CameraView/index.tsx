@@ -14,13 +14,15 @@ const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
 const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
 async function takePicture() {
-
-    const options = {quality: 1, focus: 'on'}
-
-    if (camRef && camRef.current) {
-      const data = await camRef.current.takePictureAsync(options);
-      setCapturedPhoto(data.uri);
-      setModalIsOpen(true);
+    try {
+        if (camRef.current) {
+            const options = { quality: 1 };
+            const data = await camRef.current.takePictureAsync(options);
+            setCapturedPhoto(data.uri);
+            setModalIsOpen(true);
+        }
+    } catch (error) {
+        console.error("Error taking picture:", error);
     }
 }
 
